@@ -1,0 +1,9 @@
+apiVersion: v2
+name: argoapps-addons
+description: A helm chart to deploy Applications for platform addons.
+type: application
+version: 0.0.1
+appVersion: 0.0.1
+maintainers:
+  - name: Saeid Bostandoust
+    email: ssbostan@yahoo.com

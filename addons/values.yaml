@@ -1,0 +1,12 @@
+clusterName: ""
+overrideRepo: ""
+addons: []
+#  - addon: cert-manager
+#    project: thecrown
+#    namespace: cert-manager
+#    helmRepo: https://charts.jetstack.io
+#    chartName: cert-manager
+#    chartVersion: v1.14.5
+#    overrideRevision: test
+#    order: -999
+#    enabled: true

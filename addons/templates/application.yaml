@@ -1,0 +1,46 @@
+{{- range .Values.addons -}}
+{{- if .enabled -}}
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: {{ .addon }}
+  annotations:
+    argocd.argoproj.io/sync-wave: "{{ default '0' .order }}"
+spec:
+  project: {{ .project }}
+  sources:
+    - repoURL: {{ .helmRepo }}
+      chart: {{ .chartName }}
+      targetRevision: "{{ .chartVersion }}"
+      helm:
+        ignoreMissingValueFiles: true
+        skipCrds: false
+        valueFiles:
+          - "$values/{{ $.Values.clusterName }}/{{ .addon }}.yaml"
+    - ref: values
+      repoURL: {{ $.Values.overrideRepo }}
+      targetRevision: {{ .overrideRevision }}
+  destination:
+    name: {{ $.Values.clusterName }}
+    namespace: {{ .namespace }}
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - Validate=true
+      - CreateNamespace=true
+      - PrunePropagationPolicy=background
+      - PruneLast=false
+      - RespectIgnoreDifferences=true
+      - ApplyOutOfSyncOnly=true
+    retry:
+      limit: -1
+      backoff:
+        duration: 5s
+        factor: 2
+        maxDuration: 3m
+---
+{{- end -}}
+{{- end -}}
