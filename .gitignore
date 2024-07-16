@@ -1,5 +1,5 @@
 # Chart dependencies
-**/charts/*.tgz
+**/*.tgz
 
 *.env
 **/*.env
